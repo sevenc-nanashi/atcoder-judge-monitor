@@ -2,7 +2,7 @@
 
 **[English](./README.md)** | 日本語
 
-![demo](./demo.png)  
+![demo](./assets/demo.png)  
 これはAtCoderの提出状況をリアルタイムで表示するシンプルなモニターです。
 [`oj s main.rb`](https://github.com/online-judge-tools/oj) などと組み合わせて使うことで、提出からジャッジ確認をブラウザ無しで行うことができます。
 
