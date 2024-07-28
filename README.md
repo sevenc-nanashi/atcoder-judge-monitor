@@ -2,7 +2,7 @@
 
 **English** | [日本語](./README.ja.md)
 
-![demo](./demo.png)
+![demo](./demo.png)  
 This is a simple monitor for your AtCoder submissions. It shows the status of your submissions in real time.
 You can submit your code and check the result without using a web browser by combining it with [`oj s main.rb`](https://github.com/online-judge-tools/oj).
 
