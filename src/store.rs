@@ -15,6 +15,11 @@ pub fn get_cookie_path() -> PathBuf {
     path
 }
 
+pub fn create_config_dir() {
+    let path = get_config_dir();
+    fs_err::create_dir_all(&path).unwrap();
+}
+
 pub fn create_http_client() -> Option<reqwest::Client> {
     let Ok(cookie_file) = fs_err::File::open(get_cookie_path()) else {
         warn!("Failed to open cookie file");

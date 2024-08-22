@@ -29,6 +29,8 @@ enum Commands {
 async fn main() -> anyhow::Result<()> {
     let args = Args::parse();
 
+    store::create_config_dir();
+
     log::init();
 
     let result = match args.command {
