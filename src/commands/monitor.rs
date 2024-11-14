@@ -127,7 +127,7 @@ pub async fn main(contest_url: String) -> anyhow::Result<()> {
 }
 
 #[cfg(feature = "dummy-submissions")]
-async fn poll(client: reqwest::Client, contest_url: &str) -> anyhow::Result<()> {
+async fn poll(_client: reqwest::Client, _contest_url: &str) -> anyhow::Result<()> {
     let mut counter = 0;
     let first_time = chrono::Utc::now();
     while STOPPED.get().is_none() {
@@ -544,6 +544,7 @@ async fn screen_loop(title: String) -> anyhow::Result<()> {
 }
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 struct Submission {
     time: chrono::DateTime<chrono::Utc>,
     problem: String,

@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use crate::warn;
+use crate::{debug, warn};
 
 pub fn get_config_dir() -> PathBuf {
     let mut path = dirs::config_dir().unwrap();
@@ -27,10 +27,18 @@ pub fn create_http_client() -> Option<reqwest::Client> {
     };
 
     let cookie_store =
-        reqwest_cookie_store::CookieStore::load_json(std::io::BufReader::new(cookie_file))
-            .unwrap_or_default();
+        cookie_store::serde::json::load(std::io::BufReader::new(cookie_file)).unwrap_or_default();
     let cookie_store = reqwest_cookie_store::CookieStoreMutex::new(cookie_store);
     let agent = reqwest::Client::builder()
+        .user_agent("AtCoderJudgeMonitor/0.1")
+        .redirect(reqwest::redirect::Policy::custom(|attempt| {
+            debug!("Redirecting to {}", attempt.url());
+            if attempt.previous().len() > 10 {
+                attempt.error("too many redirects")
+            } else {
+                attempt.follow()
+            }
+        }))
         .cookie_provider(Arc::new(cookie_store))
         .build()
         .unwrap();

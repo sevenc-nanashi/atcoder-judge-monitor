@@ -36,13 +36,16 @@ async fn main() -> anyhow::Result<()> {
     let result = match args.command {
         Commands::Login => commands::login::main().await,
         Commands::Monitor { contest_url } => {
-            let contest_url = contest_url.unwrap_or_else(|| {
+            let contest_id = contest_url.unwrap_or_else(|| {
                 let cwd = std::env::current_dir().unwrap();
                 let contest_id = cwd.file_name().unwrap().to_str().unwrap();
-                let contest_url = format!("https://atcoder.jp/contests/{}", contest_id);
-                info!("Inferred contest URL: {}", contest_url);
-                contest_url
+                contest_id.to_string()
             });
+            let contest_url = if contest_id.starts_with("https://") {
+                contest_id
+            } else {
+                format!("https://atcoder.jp/contests/{}", contest_id)
+            };
             commands::monitor::main(contest_url).await
         }
     };
